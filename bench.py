@@ -353,22 +353,23 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
                 wTabCutoutsRendered
             )
         )
-    scad_render_to_file(rendered, "bench\\wside" + str(i) + ".scad", file_header='$fn = %s;' % SEGMENTS, include_orig_code=True)
+        scad_render_to_file(rendered, "bench\\wside" + str(i) + ".scad", file_header='$fn = %s;' % SEGMENTS, include_orig_code=True)
+
     scad_render_to_file(combined, "bench\\combined.scad", file_header='$fn = %s;' % SEGMENTS, include_orig_code=True)
 
 if __name__ == '__main__':
     uom = 25.4
-    ply = 7/16 * uom
+    ply = 12#7/16 * uom
     assembly(
-        sectionLength = 12 * uom,
-        lSections = 5,
-        wSections = 3,
+        sectionLength = 11 * uom,
+        lSections = 2,
+        wSections = 2,
         height = 6 * uom,
         ply = ply,
         sectionTabCount = 5,
-        cutterDiameter = 7,
+        cutterDiameter = 4,
         openingOffset = 1 * uom,
-        topAndBottomSegments = 3,
-        maxLengthSectionCount = 3,
+        topAndBottomSegments = 1,
+        maxLengthSectionCount = 2,
         explode = 15
     )
