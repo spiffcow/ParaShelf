@@ -16,7 +16,7 @@ SEGMENTS = 90
 
 
 
-def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, cutterDiameter, openingOffset, topAndBottomSegments, explode):
+def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, cutterDiameter, openingOffset, topAndBottomSegments, maxLengthSectionCount, explode):
     length = ply + lSections * (ply + sectionLength)
     width = ply + wSections * (ply + sectionLength)
     tabHeight = ply
@@ -336,7 +336,15 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
                 lTabCutoutsRendered
             )
         )
-        scad_render_to_file(rendered, "bench\\lside" + str(i) + ".scad", file_header='$fn = %s;' % SEGMENTS, include_orig_code=True)
+        if maxLengthSectionCount == lSections:
+            scad_render_to_file(rendered, "bench\\lside" + str(i) + ".scad", file_header='$fn = %s;' % SEGMENTS, include_orig_code=True)
+        else:
+            j = i % int(lSections/maxLengthSectionCount)
+            while j < lSections:
+                blinders = union()(*[translate([0,k*(sectionLength+ply),0])(cube([ply,sectionLength+ply,height])) for k in range(0,lSections) if k < j or k >= (j+maxLengthSectionCount)])
+                scad_render_to_file(difference()(rendered, blinders), "bench\\lside" + str(i) + "_" + str(int(j/maxLengthSectionCount)) + ".scad", file_header='$fn = %s;' % SEGMENTS, include_orig_code=True)
+                j += maxLengthSectionCount
+
     for i in range(0,len(wSides)):
         rendered = wSides[i].reverse()(
             difference()(
@@ -361,5 +369,6 @@ if __name__ == '__main__':
         cutterDiameter = 7,
         openingOffset = 1 * uom,
         topAndBottomSegments = 3,
+        maxLengthSectionCount = 3,
         explode = 15
     )
