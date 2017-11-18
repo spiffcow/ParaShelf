@@ -220,14 +220,14 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
             elif i == wSections:
                 surfaceTabCutouts += [
                     CutPiece(
-                        translation = [i * (ply + sectionLength), ply + j * (ply + sectionLength), height-ply],
+                        translation = [i * (ply + sectionLength), j * (ply + sectionLength), height-ply],
                         rotation = [90,0,90],
                         geo = tabAltCutoutEndTemplate
                     )
                 ]
                 surfaceTabCutouts += [
                     CutPiece(
-                        translation = [i * (ply + sectionLength), ply + j * (ply + sectionLength), 0],
+                        translation = [i * (ply + sectionLength), j * (ply + sectionLength), 0],
                         rotation = [90,0,90],
                         geo = tabAltCutoutEndTemplate
                     )
@@ -359,17 +359,17 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
 
 if __name__ == '__main__':
     uom = 25.4
-    ply = 12#7/16 * uom
+    ply = 18
     assembly(
         sectionLength = 11 * uom,
         lSections = 2,
         wSections = 2,
-        height = 6 * uom,
+        height = 8 * uom,
         ply = ply,
         sectionTabCount = 5,
-        cutterDiameter = 4,
-        openingOffset = 1 * uom,
+        cutterDiameter = 1/4*uom,
+        openingOffset = 2 * uom,
         topAndBottomSegments = 1,
         maxLengthSectionCount = 2,
-        explode = 15
+        explode = 35
     )
