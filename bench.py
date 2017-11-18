@@ -360,16 +360,17 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
 if __name__ == '__main__':
     uom = 25.4
     ply = 18
+	extraHoleSize = 1;
     assembly(
-        sectionLength = 11 * uom,
-        lSections = 2,
-        wSections = 2,
+        sectionLength = 20 * uom,
+        lSections = 1,
+        wSections = 1,
         height = 8 * uom,
         ply = ply,
         sectionTabCount = 5,
-        cutterDiameter = 1/4*uom,
+        cutterDiameter = 1/4*uom + extraHoleSize,
         openingOffset = 2 * uom,
         topAndBottomSegments = 1,
-        maxLengthSectionCount = 2,
+        maxLengthSectionCount = 1,
         explode = 35
     )
