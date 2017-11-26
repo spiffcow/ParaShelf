@@ -119,7 +119,7 @@ def dovetailCutout(height,width,depth,cutDiameter,count):
 def squareTabCut(height,width,depth,cutDiameter,count,alternate=False, allAround=False, hideHoles=True):
     d = []
     tabWidth = width/(count)
-    cutOffset = sqrt(cutDiameter/2)/2
+    cutOffset = sqrt(cutDiameter/2)
 
     for i in range(0,count):
         if (alternate):
@@ -136,8 +136,13 @@ def squareTabCut(height,width,depth,cutDiameter,count,alternate=False, allAround
                 ]
             else:
                 d += [
-                    translate([(i*tabWidth+cutOffsetSign*cutOffset),0,cutOffset])(
-                        rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
+                    hull()(
+                        translate([(i*tabWidth+cutOffsetSign*cutDiameter/2),0,cutDiameter/2])(
+                            rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
+                        ),
+                        translate([(i*tabWidth+cutOffsetSign*cutOffset),0,cutOffset])(
+                            rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
+                        )
                     )
                 ]
             if (allAround):
@@ -149,8 +154,13 @@ def squareTabCut(height,width,depth,cutDiameter,count,alternate=False, allAround
                     ]
                 else:
                     d += [
-                        translate([(i*tabWidth+cutOffsetSign*cutOffset),0,height-cutOffset])(
-                            rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
+                        hull()(
+                            translate([(i*tabWidth+cutOffsetSign*cutDiameter/2),0,height-cutDiameter/2])(
+                                rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
+                            ),
+                            translate([(i*tabWidth+cutOffsetSign*cutOffset),0,height-cutOffset])(
+                                rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
+                            )
                         )
                     ]
         if (i < count and isSquare):
