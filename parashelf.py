@@ -178,14 +178,14 @@ def assembly(shelfHeight, shelfWidth, shelfDepth, kickplateHeight, shelfCount, t
 
 if __name__ == '__main__':
     uom = 25.4
-    ply = 17.6#11.7#23/32 * uom
+    ply = 18#11.7#23/32 * uom
     a = assembly(
         shelfHeight = 30 * uom,
         shelfWidth = 37 * uom,
         shelfDepth = 18 * uom,
         kickplateHeight = 3 * uom,
         shelfCount = 2,
-        tabHeight = 2/3 * ply,
+        tabHeight = ply,
         ply = ply,
         cutterDiameter = 7,
         wTabCount = 9,

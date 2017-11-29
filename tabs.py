@@ -116,7 +116,7 @@ def dovetailCutout(height,width,depth,cutDiameter,count):
             ]
     return left((spacing-tabWidth)/2)(union()(*d))
 
-def squareTabCut(height,width,depth,cutDiameter,count,alternate=False, allAround=False, hideHoles=True, tolerance=3.3):
+def squareTabCut(height,width,depth,cutDiameter,count,alternate=False, allAround=False, hideHoles=False, tolerance=0.3):
     d = []
     tabWidth = width/(count)
     cutOffset = sqrt(cutDiameter/2)
@@ -148,17 +148,17 @@ def squareTabCut(height,width,depth,cutDiameter,count,alternate=False, allAround
             if (allAround):
                 if hideHoles:
                     d += [
-                        translate([(i*tabWidth),0,height-cutDiameter/2+tolerance])(
+                        translate([(i*tabWidth),0,height-cutDiameter/2-tolerance])(
                             rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
                         )
                     ]
                 else:
                     d += [
                         hull()(
-                            translate([(i*tabWidth+cutOffsetSign*(cutDiameter/2-tolerance)),0,height-cutDiameter/2-tolerance])(
+                            translate([(i*tabWidth+cutOffsetSign*(cutDiameter/2-tolerance)),0,height-cutDiameter/2])(
                                 rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
                             ),
-                            translate([(i*tabWidth+cutOffsetSign*(cutOffset-tolerance)),0,height-cutOffset-tolerance])(
+                            translate([(i*tabWidth+cutOffsetSign*(cutOffset-tolerance)),0,height-cutOffset])(
                                 rotate([-90,0,0])(cylinder(cutDiameter/2,depth, center=False))
                             )
                         )
