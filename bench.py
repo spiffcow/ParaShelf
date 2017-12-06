@@ -16,15 +16,15 @@ SEGMENTS = 90
 
 
 
-def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, cutterDiameter, openingOffset, topAndBottomSegments, maxLengthSectionCount, explode):
+def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, cutterDiameter, openingOffset, topAndBottomSegments, maxLengthSectionCount, topLip, explode):
     length = ply + lSections * (ply + sectionLength)
     width = ply + wSections * (ply + sectionLength)
     tabHeight = ply
 
     top = CutPiece(
-        translation = [0,0,height-ply],
+        translation = [-topLip,-topLip,height-ply],
         rotation = [0,0,0],
-        geo = cube([width, length, ply])
+        geo = cube([width+2*topLip, length+2*topLip, ply])
     )
     bottom = CutPiece(
         translation = [0,0,0],
@@ -207,7 +207,7 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
                     CutPiece(
                         translation = [ply + i * (ply + sectionLength), j * (ply + sectionLength), height],
                         rotation = [-90,0,90],
-                        geo = tabAltCutoutEndTemplate
+                        geo = (tabAltCutoutEndTemplate if topLip <= 0 else tabAltCutoutTemplate)
                     )
                 ]
                 surfaceTabCutouts += [
@@ -222,7 +222,7 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
                     CutPiece(
                         translation = [i * (ply + sectionLength), j * (ply + sectionLength), height-ply],
                         rotation = [90,0,90],
-                        geo = tabAltCutoutEndTemplate
+                        geo = (tabAltCutoutEndTemplate if topLip <= 0 else tabAltCutoutTemplate)
                     )
                 ]
                 surfaceTabCutouts += [
@@ -253,7 +253,7 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
                     CutPiece(
                         translation = [i * (ply + sectionLength), ply + j * (ply + sectionLength), height-ply],
                         rotation = [90,0,0],
-                        geo = tabAltCutoutEndTemplate
+                        geo = (tabAltCutoutEndTemplate if topLip <= 0 else tabAltCutoutTemplate)
                     )
                 ]
                 surfaceTabCutouts += [
@@ -268,7 +268,7 @@ def assembly(sectionLength, lSections, wSections, height, ply, sectionTabCount, 
                     CutPiece(
                         translation = [i * (ply + sectionLength), j * (ply + sectionLength), height],
                         rotation = [-90,0,0],
-                        geo = tabAltCutoutEndTemplate
+                        geo = (tabAltCutoutEndTemplate if topLip <= 0 else tabAltCutoutTemplate)
                     )
                 ]
                 surfaceTabCutouts += [
@@ -362,14 +362,15 @@ if __name__ == '__main__':
     ply = 18
     assembly(
         sectionLength = 20 * uom,
-        lSections = 2,
+        lSections = 1,
         wSections = 1,
-        height = 8 * uom,
+        height = 6 * uom,
         ply = ply,
         sectionTabCount = 5,
         cutterDiameter = 1/4*uom,
         openingOffset = 2 * uom,
         topAndBottomSegments = 1,
         maxLengthSectionCount = 1,
-        explode = 1000
+		topLip = 0.5 * uom,
+        explode = 50
     )
